@@ -15,19 +15,29 @@ function Home() {
 
     // Handle delete
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:1012/delete/`+id)
+        axios.delete(`http://localhost:1012/delete/` + id)
             .then(() => {
                 location.reload()
             })
             .catch(err => console.log(err));
     };
 
-    // Handle Mark as Done
+
+    // // Handle Mark as Done
+    // const toggleComplete = (id) => {
+    //     setTodos(todos.map(todo =>
+    //         todo._id === id ? { ...todo, completed: !todo.completed } : todo
+    //     ));
+    // };
+
+
     const toggleComplete = (id) => {
-        setTodos(todos.map(todo =>
-            todo._id === id ? { ...todo, completed: !todo.completed } : todo
-        ));
-    };
+        axios.put(`http://localhost:1012/update/` + id)
+        .then((result) =>{location.reload()})
+        .catch(err => console.log(err));
+            };
+
+            
 
     return (
         <div className="container">
@@ -37,8 +47,9 @@ function Home() {
                 <div className="no-records"><h2>No Records</h2></div>
             ) : (
                 todos.map((todo, index) => {
-                    return (<div key={index} className={`todo-item ${todo.completed ? "completed" : ""}`}>
-                        <span>{todo.task}</span>
+                    return (<div key={index} className={`todo-item`}>
+                        <span className={todo.done ? "completed":""}>{todo.task}</span>
+
                         <div className="icons">
                             <FaCheck className="mark-icon" onClick={() => toggleComplete(todo._id)} />
                             <FaTrash className="delete-icon" onClick={() => handleDelete(todo._id)} />
