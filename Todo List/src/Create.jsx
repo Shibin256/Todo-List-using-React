@@ -11,17 +11,17 @@ function Create() {
     },[])
     
     const handleAdd = () => {
-        if (task) {
+        if (task ) {
             axios.post('/local/add', { task: task})
                 .then(result => {
-                    location.reload()
+                    location.reload()           //reload automatically
                 }).catch(err => console.log(err))
         }
     }
 
     return (
         <div>
-            <input type="text" placeholder="Write the Content.." ref={inputRef} onChange={(e) => { setTask(e.target.value.trim()) }} />
+            <input type="text" placeholder="Write the Content.." ref={inputRef} onChange={(e) => { setTask(e.target.value.trim()) }} />         
             <button type="button" onClick={handleAdd}>submit</button>
         </div>
     )

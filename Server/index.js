@@ -16,13 +16,16 @@ app.get('/get',(req,res)=>{
 })
 
 
-app.post('/add',(req,res)=>{
-        const task=req.body.task
-        TodoModel.create({
-            task:task
-        }).then(result=> res.json(result))
-        .catch(err=>res.json(err))
-})
+app.post('/add', (req, res) => {
+    const task = req.body.task;
+    TodoModel.updateOne(
+        { task: task },
+        { $setOnInsert: { task: task } }, 
+        { upsert: true }
+    )
+    .then(result => res.json(result))
+    .catch(err => res.json(err));
+});
 
 
 //marking
